@@ -330,7 +330,40 @@ Si estáis en Linux o Kali podéis ejecutar directamente este comando: ```nc -nv
 
 Guardamos el exploit, nos ponemos a la escucha cómo se ve en la imagen y después ejecutamos el exploit.
 
-
+![41c5b5f4fc46f69d7a1b73f314f433d4](https://user-images.githubusercontent.com/107114264/173055898-3ca97139-86c0-4344-b3c4-6a2b0b6d2139.png)
 
 Con eso deberíamos conseguir acceso a la máquina de Tryhackme.
 
+Si hacemos un ```id``` o un ```whoami``` veremos que nuestro usuario se llama Puck.
+
+# Escala de privilegios
+
+Una vez estamos dentro esta escala va a ser algo sencilla.
+
+Primero ejecutaremos este comando ```python3 -c "import pty; pty.spawn('/bin/bash');"``` para crear una shell interactiva.
+
+Ahora realizaremos ```sudo -l``` para ver si hubiese algún comando que se ejecutase con privilegios sudo.
+
+Vemos que sale lo siguiente:
+
+![72bcd00a5d788cdf6c4939d93124d722](https://user-images.githubusercontent.com/107114264/173056368-ef53ac1f-52a0-49cb-8a28-ef39a82987f6.png)
+
+Vamos a usar ```sudo /home/anansi/bin/anansi_util``` para ver que podemos hacer.
+
+![e284cb239985fe46a0ae6f80329d3bc3](https://user-images.githubusercontent.com/107114264/173056476-c0743825-7a45-4fc7-9be7-c91901a071e3.png)
+
+Probemos a utilizar manual y cualquier comando en mi caso ls ```sudo /home/anansi/bin/anansi_util manual ls``` y nos sale un error.
+
+![ad47c87786fd6dd70e23441d5c0b9105](https://user-images.githubusercontent.com/107114264/173056660-dfe4d4f3-002e-4f1d-a7ba-c3f7bec94e93.png)
+
+Vamos a ejecutar un ```!/bin/sh``` ya que en este error cualquier comando debería ejecutarse como root, a ver si obtenemos root.
+
+![9e78bf96ead61f6a51de8b1648dd63ed](https://user-images.githubusercontent.com/107114264/173056814-4a31c214-ba23-440b-ab0a-30c58a56b490.png)
+
+Lo ejecutamos y...
+
+![8f4bd219c9e205681e30fd1851bef443](https://user-images.githubusercontent.com/107114264/173056882-982205dc-722f-4126-8da7-9ee5570b1682.png)
+
+Somos root!, pues hasta aquí hemos terminado con privilegios root.
+
+Espero que tengáis un buen día, Adiós!!
